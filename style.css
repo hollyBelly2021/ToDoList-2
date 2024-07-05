@@ -152,6 +152,11 @@ li span {
   padding-right: 1rem;
 }
 
+.fa-solid,
+.fa-regular {
+  color: var(--on-secondary);
+}
+
 /* input section */
 .input-section {
   display: flex;

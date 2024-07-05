@@ -2,7 +2,7 @@ const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
 const headerContainer = document.getElementById("header-container");
 const toggleSwitch = document.getElementById("switch");
-let icon = "";
+const navContainer = document.querySelector(".nav-container");
 const today = new Date();
 
 function getFormattedDate() {
@@ -14,58 +14,72 @@ function getFormattedDate() {
   return `${day} - ${month} ${date}, ${year}`;
 }
 
-function createIcon(imagePath) {
-  const iconElement = document.createElement("img");
-  iconElement.src = imagePath;
-  return iconElement;
-}
-
 function addTask() {
   if (inputBox.value === "") {
     alert("Error: No text");
   } else {
     let li = document.createElement("li");
-    li.innerHTML = inputBox.value;
+    li.innerHTML = `<i></i>${inputBox.value}`;
+    let iconElement = li.querySelector("i");
+    iconElement.classList.add("fa-regular", "fa-circle");
+
+    li.addEventListener("click", changeIconOnClick);
     listContainer.appendChild(li);
-    li.appendChild(createIcon("assets/circle-regular-dark.svg"));
+
     let span = document.createElement("span");
     span.innerHTML = "\u00d7";
     li.appendChild(span);
   }
 
   inputBox.value = "";
-  icon = listContainer.querySelector("img");
-  console.log(icon);
-  //   saveData();
+  saveData();
 }
 
-function checkedRemoveTask(e) {
-  if (e.target.tagName === "LI") {
-    e.target.classList.toggle("checked");
-
-    // saveData();
-  } else if (e.target.tagName === "SPAN") {
-    e.target.parentElement.remove();
-    // saveData();
+function changeIconOnClick(event) {
+  const clickedLi = event.currentTarget;
+  const iconElement = clickedLi.querySelector("i");
+  if (event.target.tagName === "LI") {
+    iconElement.classList.toggle("fa-solid");
+    event.target.classList.toggle("checked");
+    saveData();
+  } else if (event.target.tagName === "SPAN") {
+    event.target.parentElement.remove();
+    saveData();
   }
 }
 
+function checkedRemoveTask(e) {
+  //   saveData();
+}
+
 function switchTheme(e) {
+  const iconSunMoon = navContainer.querySelector("i");
   if (event.target.checked) {
     document.documentElement.setAttribute("data-theme", "dark");
+    iconSunMoon.classList.replace("fa-sun", "fa-moon");
+    localStorage.setItem("theme", "dark");
   } else {
     document.documentElement.setAttribute("data-theme", "light");
+    iconSunMoon.classList.replace("fa-moon", "fa-sun");
+    localStorage.setItem("theme", "light");
   }
 }
 
 function saveData() {
   localStorage.setItem("data", listContainer.innerHTML);
 }
-// function showTask() {
-//   listContainer.innerHTML = localStorage.getItem("data");
-// }
+function showTask() {
+  listContainer.innerHTML = localStorage.getItem("data");
+}
 
-listContainer.addEventListener("click", checkedRemoveTask, false);
+// listContainer.addEventListener("click", checkedRemoveTask, false);
+const currentTheme = localStorage.getItem("theme");
+if (currentTheme) {
+  document.documentElement.setAttribute("data-theme", currentTheme);
+  if (currentTheme === "dark") {
+    toggleSwitch.checked = true;
+  }
+}
 toggleSwitch.addEventListener("change", switchTheme);
 headerContainer.innerHTML = `<p> ${getFormattedDate()} </p>`;
-// showTask();
+showTask();
