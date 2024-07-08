@@ -21,10 +21,10 @@ function addTask() {
   } else {
     let li = document.createElement("li");
     li.innerHTML = `<i></i>${inputBox.value}`;
-    let iconElement = li.querySelector("i");
-    iconElement.classList.add("fa-regular", "fa-circle");
+    // let iconElement = li.querySelector("i");
+    // iconElement.classList.add("fa-regular", "fa-circle");
 
-    li.addEventListener("click", changeIconOnClick);
+    // li.addEventListener("click", changeIconOnClick);
     listContainer.appendChild(li);
 
     let span = document.createElement("span");
@@ -33,7 +33,7 @@ function addTask() {
   }
 
   inputBox.value = "";
-  //   saveData();
+  saveData();
 }
 
 function changeIconOnClick(event) {
@@ -43,12 +43,13 @@ function changeIconOnClick(event) {
   if (event.target.tagName === "LI") {
     iconElement.classList.toggle("fa-solid");
     event.target.classList.toggle("checked");
-    // saveData();
+    saveData();
   } else if (event.target.tagName === "SPAN") {
     event.target.parentElement.remove();
-    // saveData();
+    saveData();
   }
 }
+listContainer.addEventListener("click", changeIconOnClick, false);
 
 // function checkedRemoveTask(e) {
 //   //   saveData();
@@ -77,9 +78,9 @@ function lightMode() {
   iconSunMoon.classList.replace("fa-moon", "fa-sun");
 }
 
-// function saveData() {
-//   localStorage.setItem("data", listContainer.innerHTML);
-// }
+function saveData() {
+  localStorage.setItem("data", listContainer.innerHTML);
+}
 function showTask() {
   listContainer.innerHTML = localStorage.getItem("data");
 }
@@ -94,6 +95,6 @@ if (currentTheme) {
 }
 toggleSwitch.addEventListener("change", switchTheme);
 headerContainer.innerHTML = `<p> ${getFormattedDate()} </p>`;
-// listContainer.addEventListener("click", changeIconOnClick, false);
-// showTask();
+
+showTask();
 // localStorage.clear();
