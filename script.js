@@ -3,6 +3,7 @@ const listContainer = document.getElementById("list-container");
 const headerContainer = document.getElementById("header-container");
 const toggleSwitch = document.getElementById("switch");
 const navContainer = document.querySelector(".nav-container");
+const givenLI = document.querySelector("li");
 const today = new Date();
 
 function getFormattedDate() {
@@ -32,25 +33,26 @@ function addTask() {
   }
 
   inputBox.value = "";
-  saveData();
+  //   saveData();
 }
 
 function changeIconOnClick(event) {
+  console.log(event.target);
   const clickedLi = event.currentTarget;
   const iconElement = clickedLi.querySelector("i");
   if (event.target.tagName === "LI") {
     iconElement.classList.toggle("fa-solid");
     event.target.classList.toggle("checked");
-    saveData();
+    // saveData();
   } else if (event.target.tagName === "SPAN") {
     event.target.parentElement.remove();
-    saveData();
+    // saveData();
   }
 }
 
-function checkedRemoveTask(e) {
-  //   saveData();
-}
+// function checkedRemoveTask(e) {
+//   //   saveData();
+// }
 
 function switchTheme(e) {
   const iconSunMoon = navContainer.querySelector("i");
@@ -65,21 +67,33 @@ function switchTheme(e) {
   }
 }
 
-function saveData() {
-  localStorage.setItem("data", listContainer.innerHTML);
+function darkMode() {
+  const iconSunMoon = navContainer.querySelector("i");
+  iconSunMoon.classList.replace("fa-sun", "fa-moon");
 }
+
+function lightMode() {
+  const iconSunMoon = navContainer.querySelector("i");
+  iconSunMoon.classList.replace("fa-moon", "fa-sun");
+}
+
+// function saveData() {
+//   localStorage.setItem("data", listContainer.innerHTML);
+// }
 function showTask() {
   listContainer.innerHTML = localStorage.getItem("data");
 }
 
-// listContainer.addEventListener("click", checkedRemoveTask, false);
 const currentTheme = localStorage.getItem("theme");
 if (currentTheme) {
   document.documentElement.setAttribute("data-theme", currentTheme);
   if (currentTheme === "dark") {
     toggleSwitch.checked = true;
+    darkMode();
   }
 }
 toggleSwitch.addEventListener("change", switchTheme);
 headerContainer.innerHTML = `<p> ${getFormattedDate()} </p>`;
-showTask();
+// listContainer.addEventListener("click", changeIconOnClick, false);
+// showTask();
+// localStorage.clear();
