@@ -60,13 +60,13 @@ listContainer.addEventListener("click", changeIconOnClick, false);
 
 function switchTheme(e) {
   if (event.target.checked) {
-    document.documentElement.setAttribute("data-theme", "dark");
+    document.documentElement.setAttribute("data-theme", DARK_MODE);
     toggleLightDarkMode(true);
-    localStorage.setItem("theme", "dark");
+    localStorage.setItem("theme", DARK_MODE);
   } else {
-    document.documentElement.setAttribute("data-theme", "light");
+    document.documentElement.setAttribute("data-theme", LIGHT_MODE);
     toggleLightDarkMode(false);
-    localStorage.setItem("theme", "light");
+    localStorage.setItem("theme", LIGHT_MODE);
   }
 }
 
@@ -86,7 +86,7 @@ function showTask() {
 const currentTheme = localStorage.getItem("theme");
 if (currentTheme) {
   document.documentElement.setAttribute("data-theme", currentTheme);
-  if (currentTheme === "dark") {
+  if (currentTheme === DARK_MODE) {
     toggleSwitch.checked = true;
     toggleLightDarkMode(true);
   }
