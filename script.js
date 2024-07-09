@@ -4,6 +4,9 @@ const headerContainer = document.getElementById("header-container");
 const toggleSwitch = document.getElementById("switch");
 const navContainer = document.querySelector(".nav-container");
 const givenLI = document.querySelector("li");
+const iconSunMoon = navContainer.querySelector("i");
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
 const today = new Date();
 
 function getFormattedDate() {
@@ -56,26 +59,21 @@ listContainer.addEventListener("click", changeIconOnClick, false);
 // }
 
 function switchTheme(e) {
-  const iconSunMoon = navContainer.querySelector("i");
   if (event.target.checked) {
     document.documentElement.setAttribute("data-theme", "dark");
-    iconSunMoon.classList.replace("fa-sun", "fa-moon");
+    toggleLightDarkMode(true);
     localStorage.setItem("theme", "dark");
   } else {
     document.documentElement.setAttribute("data-theme", "light");
-    iconSunMoon.classList.replace("fa-moon", "fa-sun");
+    toggleLightDarkMode(false);
     localStorage.setItem("theme", "light");
   }
 }
 
-function darkMode() {
-  const iconSunMoon = navContainer.querySelector("i");
-  iconSunMoon.classList.replace("fa-sun", "fa-moon");
-}
-
-function lightMode() {
-  const iconSunMoon = navContainer.querySelector("i");
-  iconSunMoon.classList.replace("fa-moon", "fa-sun");
+function toggleLightDarkMode(isDark) {
+  isDark
+    ? iconSunMoon.classList.replace("fa-sun", "fa-moon")
+    : iconSunMoon.classList.replace("fa-moon", "fa-sun");
 }
 
 function saveData() {
@@ -90,7 +88,7 @@ if (currentTheme) {
   document.documentElement.setAttribute("data-theme", currentTheme);
   if (currentTheme === "dark") {
     toggleSwitch.checked = true;
-    darkMode();
+    toggleLightDarkMode(true);
   }
 }
 toggleSwitch.addEventListener("change", switchTheme);
